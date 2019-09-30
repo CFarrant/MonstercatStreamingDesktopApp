@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="MonstercatDesktopStreamingApp.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MonstercatDesktopStreamingApp.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid RequestedTheme="Dark" Background="Black">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Run Text="Monstercat Desktop Streaming Application" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <Image x:Name="monstercatLogo" Width="150" Height="150"></Image>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,15,0,0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Run Text="Hello, and welcome the Monstercat Desktop Streaming App!" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Run Text="To get started, Just browse to the library in the menu bar." Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Run Text="We hope that you can kick back, and hop right into enjoying some tunes." Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

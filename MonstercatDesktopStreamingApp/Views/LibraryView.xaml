@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="MonstercatDesktopStreamingApp.Pages.LibraryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MonstercatDesktopStreamingApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="Black">
+        <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsItemClickEnabled="true" ItemClick="AlbumsViewer_ItemClick" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" Grid.Row="1" Grid.Column="1" x:Name="albumsViewer">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="20">
+                        <Image Width="159" Height="159" Source="{Binding albumCoverImage}"></Image>
+                        <TextBlock FontWeight="Bold" FontStyle="Oblique" IsColorFontEnabled="True" Style="{StaticResource BaseTextBlockStyle}">
+                            <Run Text="{Binding albumName}" Foreground="LightGray" FontFamily="Segoe UI" />
+                        </TextBlock>
+                        <TextBlock TextWrapping="NoWrap" FontStyle="Oblique" IsColorFontEnabled="True" Style="{StaticResource BodyTextBlockStyle}">
+                            <Run Text="{Binding albumArtistName}" Foreground="LightGray" FontFamily="Segoe UI" />
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+    </Grid>
+</Page>

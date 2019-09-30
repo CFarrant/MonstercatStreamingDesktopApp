@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="MonstercatDesktopStreamingApp.Pages.ChangePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MonstercatDesktopStreamingApp.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="Black" RequestedTheme="Dark">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Run Text="Change User Info" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Run Text="Username:" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBox x:Name="username" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"/>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Run Text="Current Password:" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBox x:Name="password" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"/>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Run Text="New Password:" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBox x:Name="newPassword" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" FontFamily="Segoe UI"/>            
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Run Text="Confirm New Password:" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBox x:Name="confirmNewPassword" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" FontFamily="Segoe UI"/>
+            <TextBlock FontWeight="Bold" FontStyle="Oblique" SelectionHighlightColor="Black" Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Run Text="Email:" Foreground="LightGray" FontFamily="Segoe UI"></Run>
+            </TextBlock>
+            <TextBox x:Name="email" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Button Background="DarkGray" Content="Save Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Click="SaveButton_ClickedAsync" FontFamily="Segoe UI"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

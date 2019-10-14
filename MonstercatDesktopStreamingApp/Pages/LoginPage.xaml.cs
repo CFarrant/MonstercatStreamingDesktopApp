@@ -19,6 +19,7 @@ namespace MonstercatDesktopStreamingApp.Pages
         {
             this.InitializeComponent();
             this.monstercatLogo.Source = new BitmapImage(new Uri("http://www.sclance.com/pngs/monstercat-logo-png/monstercat_logo_png_895099.png"));
+            BuildLocalAlbumAsync();
         }
 
         private void ForgotButton_Clicked(object sender, RoutedEventArgs e)
@@ -70,8 +71,6 @@ namespace MonstercatDesktopStreamingApp.Pages
 
                     if (response.IsSuccessStatusCode)
                     {
-                        BuildLocalTrackAsync();
-                        BuildLocalAlbumAsync();
                         MainPage.authentication = MainPage.Base64Encode(username.Text+":"+password.Text);
                         if (u.recovery == true)
                         {
@@ -79,7 +78,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                         }
                         else
                         {
-                            MainPage.window.Navigate(typeof(HomePage));
+                            MainPage.window.Navigate(typeof(LibraryView));
                         }
                     }
                     else
@@ -89,64 +88,6 @@ namespace MonstercatDesktopStreamingApp.Pages
                     }
                 }
                 catch (Exception) {}
-            }
-        }
-
-        private async void BuildLocalTrackAsync()
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                httpClient.BaseAddress = new Uri(@"http://www.monstercatstreaming.tk:8080");
-                //httpClient.BaseAddress = new Uri(@"http://localhost:8080");
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
-                string endpoint = @"/api/song";
-                //string endpoint = @"/song";
-                string json = "";
-
-                try
-                {
-                    HttpResponseMessage response = await httpClient.GetAsync(endpoint);
-                    response.EnsureSuccessStatusCode();
-                    json = await response.Content.ReadAsStringAsync();
-
-                    JArray jArray = JArray.Parse(json);
-                    foreach(JObject item in jArray)
-                    {
-                        JProperty songArt = (JProperty)item.First.Next.Next.Next.Next.Next.Next;
-                        JObject alb = (JObject)item.Last.First;
-                        JObject albArt = (JObject)alb.Last.First;
-
-                        MainPage.tracks.Add(new Track
-                        {
-                            id = (string)item.GetValue("id"),
-                            tracknumber = (int)item.GetValue("tracknumber"),
-                            title = (string)item.GetValue("title"),
-                            genreprimary = (string)item.GetValue("genreprimary"),
-                            genresecondary = (string)item.GetValue("genresecondary"),
-                            songURL = (string)item.GetValue("songURL"),
-                            artist = new Artist()
-                            {
-                                name = (string)((JObject)songArt.First).GetValue("name")
-                            },
-                            album = new Album()
-                            {
-                                id = (string)alb.GetValue("id"),
-                                name = (string)alb.GetValue("name"),
-                                type = (string)alb.GetValue("type"),
-                                releaseCode = (string)alb.GetValue("releaseCode"),
-                                genreprimary = (string)alb.GetValue("genreprimary"),
-                                genresecondary = (string)alb.GetValue("genresecondary"),
-                                coverURL = (string)alb.GetValue("coverURL"),
-                                artist = new Artist()
-                                {
-                                    name = (string)albArt.GetValue("name")
-                                }
-                            }
-                        });
-                    }
-                }
-                catch (Exception) { }
             }
         }
 

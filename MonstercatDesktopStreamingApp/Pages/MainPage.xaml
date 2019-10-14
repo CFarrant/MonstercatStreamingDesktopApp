@@ -11,7 +11,7 @@
     <Grid RequestedTheme="Dark" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="14*"></RowDefinition>
+            <RowDefinition Height="12*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -26,7 +26,7 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <Frame Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="2" x:Name="windowView"/>
-        <WebView DefaultBackgroundColor="Black" x:Name="audioStreamUI" HorizontalAlignment="Center" Height="35" Grid.Row="2" VerticalAlignment="Center" Width="2440" Margin="0,99,0,0"/>
+        <Frame Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="2" x:Name="windowView" />
+        <MediaPlayerElement Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" x:Name="mediaPlayerUI" Grid.RowSpan="1" AutoPlay="True" AreTransportControlsEnabled="True" />
     </Grid>
 </Page>

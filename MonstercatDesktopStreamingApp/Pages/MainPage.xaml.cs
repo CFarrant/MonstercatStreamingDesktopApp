@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,21 +21,26 @@ namespace MonstercatDesktopStreamingApp.Pages
 {
     public sealed partial class MainPage : Page
     {
+        public static Stack<TrackObject> queue;
         public static string authentication = "";
         public static TextBlock nowPlaying;
         public static Frame window;
-        public static WebView audioStreaming;
+        public static MediaPlayer mediaPlayer;
         public static List<Album> albums;
-        public static List<Track> tracks;
+        public static MediaPlayerElement mediaPlayerGUI;
+        public static Stack<TrackObject> history;
 
         public MainPage()
         {
             this.InitializeComponent();
             window = windowView;
+            queue = new Stack<TrackObject>();
             albums = new List<Album>();
-            tracks = new List<Track>();
+            history = new Stack<TrackObject>();
             nowPlaying = this.nowPlayingTitle;
-            audioStreaming = this.audioStreamUI;
+            mediaPlayerGUI = this.mediaPlayerUI;
+            mediaPlayerUI.Visibility = Visibility.Collapsed;
+            mediaPlayer = mediaPlayerUI.MediaPlayer;
             windowView.Navigate(typeof(LoginPage));
         }
 
@@ -81,5 +88,7 @@ namespace MonstercatDesktopStreamingApp.Pages
 
             ContentDialogResult result = await notLoggedIn.ShowAsync();
         }
+
+
     }
 }

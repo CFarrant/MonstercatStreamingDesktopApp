@@ -68,7 +68,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                                 else
                                 {
                                     MainPage.authentication = MainPage.Base64Encode(username.Text + ":" + newPassword.Text);
-                                    MainPage.window.Navigate(typeof(HomePage));
+                                    MainPage.window.Navigate(typeof(LibraryView));
                                 }
                             }
                             else

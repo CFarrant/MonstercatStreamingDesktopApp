@@ -12,8 +12,8 @@
         <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsItemClickEnabled="true" ItemClick="AlbumsViewer_ItemClick" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" Grid.Row="1" Grid.Column="1" x:Name="albumsViewer">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="20">
-                        <Image Width="159" Height="159" Source="{Binding albumCoverImage}"></Image>
+                    <StackPanel Margin="27">
+                        <Image Width="155" Height="155" Source="{Binding albumCoverImage}"></Image>
                         <TextBlock FontWeight="Bold" FontStyle="Oblique" IsColorFontEnabled="True" Style="{StaticResource BaseTextBlockStyle}">
                             <Run Text="{Binding albumName}" Foreground="LightGray" FontFamily="Segoe UI" />
                         </TextBlock>
@@ -25,7 +25,7 @@
             </GridView.ItemTemplate>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
+                    <ItemsWrapGrid MaximumRowsOrColumns="9" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>

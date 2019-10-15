@@ -20,6 +20,8 @@
         <CommandBar DefaultLabelPosition="Right" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <AppBarButton Icon="MusicInfo" Label="Library" Click="Library_Clicked"/>
             <AppBarSeparator/>
+            <AppBarButton Icon="MusicInfo" Label="Now Playing" Click="NowPlaying_Clicked"/>
+            <AppBarSeparator/>
             <AppBarButton Icon="OtherUser" Label="Update Info" Click="Change_Clicked"/>
             <CommandBar.Content>
                 <TextBlock x:Name="nowPlayingTitle" Text="Now Playing:" Margin="13"/>
@@ -27,6 +29,16 @@
         </CommandBar>
 
         <Frame Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="2" x:Name="windowView" />
-        <MediaPlayerElement Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" x:Name="mediaPlayerUI" Grid.RowSpan="1" AutoPlay="True" AreTransportControlsEnabled="True" />
+        <MediaPlayerElement Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="2" x:Name="mediaPlayerUI" Grid.RowSpan="1" AutoPlay="True" AreTransportControlsEnabled="True">
+            <MediaPlayerElement.TransportControls>
+                <MediaTransportControls IsCompact="true" IsStopButtonVisible="True" IsStopEnabled="True"
+                                        IsZoomEnabled="False" IsZoomButtonVisible="False" 
+                                        IsNextTrackButtonVisible="true" 
+                                        IsPreviousTrackButtonVisible="true"
+                                        IsPlaybackRateButtonVisible="True" IsPlaybackRateEnabled="true"
+                                        IsFullWindowButtonVisible="false" IsFullWindowEnabled="false" 
+                                        IsRepeatEnabled="True" IsRepeatButtonVisible="True" />
+            </MediaPlayerElement.TransportControls>
+        </MediaPlayerElement>
     </Grid>
 </Page>

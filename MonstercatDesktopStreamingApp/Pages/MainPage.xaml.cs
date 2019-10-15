@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
@@ -29,10 +30,12 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static List<Album> albums;
         public static MediaPlayerElement mediaPlayerGUI;
         public static Stack<TrackObject> history;
+        public static TrackObject currentSong;
 
         public MainPage()
         {
             this.InitializeComponent();
+            currentSong = null;
             window = windowView;
             queue = new Stack<TrackObject>();
             albums = new List<Album>();
@@ -46,7 +49,7 @@ namespace MonstercatDesktopStreamingApp.Pages
 
         private void Library_Clicked(object sender, RoutedEventArgs e)
         {
-            if (windowView.CurrentSourcePageType != typeof(LibraryView) && windowView.CurrentSourcePageType != typeof(LoginPage) 
+            if (windowView.CurrentSourcePageType != typeof(LibraryView) && windowView.CurrentSourcePageType != typeof(LoginPage)
                 && windowView.CurrentSourcePageType != typeof(ForgotPage) && windowView.CurrentSourcePageType != typeof(RegisterPage))
             {
                 windowView.Navigate(typeof(LibraryView));
@@ -56,6 +59,22 @@ namespace MonstercatDesktopStreamingApp.Pages
                 DisplayNotLoggedInDialog();
             }
         }
+
+        private void NowPlaying_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (windowView.CurrentSourcePageType != typeof(SongView) && windowView.CurrentSourcePageType != typeof(LoginPage)
+                && windowView.CurrentSourcePageType != typeof(ForgotPage) && windowView.CurrentSourcePageType != typeof(RegisterPage))
+            {
+                if (currentSong != null)
+                {
+                    windowView.Navigate(typeof(SongView), currentSong);
+                }
+            }
+            else if (authentication.Equals(""))
+            {
+                DisplayNotLoggedInDialog();
+            }
+        } 
 
         private void Change_Clicked(object sender, RoutedEventArgs e)
         {
@@ -88,7 +107,5 @@ namespace MonstercatDesktopStreamingApp.Pages
 
             ContentDialogResult result = await notLoggedIn.ShowAsync();
         }
-
-
     }
 }

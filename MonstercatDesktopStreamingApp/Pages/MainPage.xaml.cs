@@ -31,6 +31,7 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static MediaPlayerElement mediaPlayerGUI;
         public static Stack<TrackObject> history;
         public static TrackObject currentSong;
+        public static SystemMediaTransportControls smtc;
 
         public MainPage()
         {
@@ -45,6 +46,119 @@ namespace MonstercatDesktopStreamingApp.Pages
             mediaPlayerUI.Visibility = Visibility.Collapsed;
             mediaPlayer = mediaPlayerUI.MediaPlayer;
             windowView.Navigate(typeof(LoginPage));
+            mediaPlayer.CommandManager.NextReceived += CommandManager_NextReceived;
+            mediaPlayer.CommandManager.NextBehavior.EnablingRule = MediaCommandEnablingRule.Always;
+            mediaPlayer.CommandManager.PreviousReceived += CommandManager_PreviousReceived;
+            mediaPlayer.CommandManager.PreviousBehavior.EnablingRule = MediaCommandEnablingRule.Always;
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+            mediaPlayer.SourceChanged += MediaPlayer_SourceChanged;
+        }
+
+        private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (!mediaPlayer.IsLoopingEnabled)
+                {
+                    if (queue.Count > 0)
+                    {
+                        history.Push(currentSong);
+                        TrackObject o = queue.Pop();
+                        currentSong = o;
+                        window.Navigate(typeof(SongView));
+                    }
+                    else if (queue.Count == 0)
+                    {
+                        EndGUIPlayback();
+                        currentSong = null;
+                        mediaPlayer.Source = null;
+                        history = new Stack<TrackObject>();
+                        ReturnToHomePage();
+                    }
+                }
+            });
+        }
+
+        private async void MediaPlayer_SourceChanged(MediaPlayer sender, object args)
+        {
+            if (mediaPlayer.Source != null)
+            {
+                StartGUIPlayback();
+
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    if (queue.Count == 0)
+                    {
+                        mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = false;
+                        mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = false;
+                    }
+                    else
+                    {
+                        mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = true;
+                    }
+
+                    if (history.Count > 0)
+                    {
+                        mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = true;
+                    }
+                });
+
+                mediaPlayer.Play();
+            }
+        }
+
+        private async void ReturnToHomePage()
+        {
+            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                nowPlaying.Text = "Now Playing: ";
+                window.Navigate(typeof(LibraryView));
+            });
+        }
+
+        public async void StartGUIPlayback()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                mediaPlayerGUI.Visibility = Visibility.Visible;
+                if (queue.Count == 0)
+                {
+                    mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = false;
+                    mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = false;
+                }
+                else
+                {
+                    mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = true;
+                }
+            });
+        }
+
+        public async void EndGUIPlayback()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                mediaPlayerGUI.Visibility = Visibility.Collapsed;
+            });
+        }
+
+        private void CommandManager_PreviousReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerPreviousReceivedEventArgs args)
+        {
+            if (history.Count >= 1)
+            {
+                queue.Push(currentSong);
+                currentSong = history.Pop();
+                window.Navigate(typeof(SongView));
+            }
+        }
+
+        private void CommandManager_NextReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerNextReceivedEventArgs args)
+        {
+            if (queue.Count >= 1)
+            {
+                history.Push(currentSong);
+                currentSong = queue.Pop();
+                window.Navigate(typeof(SongView));
+            }
         }
 
         private void Library_Clicked(object sender, RoutedEventArgs e)
@@ -102,6 +216,19 @@ namespace MonstercatDesktopStreamingApp.Pages
                 RequestedTheme = ElementTheme.Dark,
                 Title = "User Login is Required",
                 Content = "Please log in and try again!",
+                CloseButtonText = "Ok"
+            };
+
+            ContentDialogResult result = await notLoggedIn.ShowAsync();
+        }
+
+        private async void DisplayNextDialog()
+        {
+            ContentDialog notLoggedIn = new ContentDialog
+            {
+                RequestedTheme = ElementTheme.Dark,
+                Title = "NEXT",
+                Content = "NEXT SONG BUTTON WAS PRESSED",
                 CloseButtonText = "Ok"
             };
 

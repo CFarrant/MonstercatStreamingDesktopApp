@@ -24,9 +24,11 @@ namespace MonstercatDesktopStreamingApp.Pages
 {
     public sealed partial class AlbumView : Page
     {
+        #region Variables
         private Album a;
         private List<Track> aTracks;
         private Track[] tList;
+        #endregion
 
         public AlbumView()
         {
@@ -34,6 +36,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             aTracks = new List<Track>();
         }
 
+        #region API Calls
         private void BuildLocalTrackList(string albumId)
         {
             using (HttpClient httpClient = new HttpClient())
@@ -91,20 +94,13 @@ namespace MonstercatDesktopStreamingApp.Pages
                 catch (Exception) { }
             }
         }
+        #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             var libraryObject = (LibraryObject)e.Parameter;
             Album album = libraryObject.album;
-            //List<Track> songs = new List<Track>();
-            //foreach(Track t in MainPage.tracks)
-            //{
-            //    if (t.album.id.Equals(album.id))
-            //    {
-            //        songs.Add(t);
-            //    }
-            //}
             a = album;
             BuildLocalTrackList(a.id);
             tList = new Track[aTracks.Count];
@@ -149,6 +145,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             }
         }
 
+        #region Button Overrides
         private void SongViewer_PlayAllClick(object sender, RoutedEventArgs e)
         {
             foreach(Track t in tList.Reverse())
@@ -181,5 +178,6 @@ namespace MonstercatDesktopStreamingApp.Pages
                 MainPage.window.Navigate(typeof(SongView), songObject);
             }
         }
+        #endregion
     }
 }

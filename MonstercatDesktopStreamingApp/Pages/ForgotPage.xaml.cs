@@ -29,6 +29,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             this.monstercatLogo.Source = new BitmapImage(new Uri("http://www.sclance.com/pngs/monstercat-logo-png/monstercat_logo_png_895099.png"));
         }
 
+        #region API Calls
         public async void Submit_ClickedAsync(object sender, RoutedEventArgs e)
         {
             using (HttpClient httpClient = new HttpClient())
@@ -68,7 +69,9 @@ namespace MonstercatDesktopStreamingApp.Pages
                 }
             } 
         }
+        #endregion
 
+        #region Dialog Windows
         private async void DisplayCheckEmailDialog()
         {
             ContentDialog invalidLogin = new ContentDialog
@@ -94,5 +97,6 @@ namespace MonstercatDesktopStreamingApp.Pages
 
             ContentDialogResult result = await invalidLogin.ShowAsync();
         }
+        #endregion
     }
 }

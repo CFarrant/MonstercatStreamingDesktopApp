@@ -1,27 +1,16 @@
 ﻿using MonstercatDesktopStreamingApp.Objects;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media;
-using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace MonstercatDesktopStreamingApp.Pages
 {
     public sealed partial class MainPage : Page
     {
+        #region Veriables
         public static Stack<TrackObject> queue;
         public static string authentication = "";
         public static TextBlock nowPlaying;
@@ -32,6 +21,7 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static Stack<TrackObject> history;
         public static TrackObject currentSong;
         public static SystemMediaTransportControls smtc;
+        #endregion
 
         public MainPage()
         {
@@ -54,6 +44,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             mediaPlayer.SourceChanged += MediaPlayer_SourceChanged;
         }
 
+        #region Media Player Overrides
         private async void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -160,7 +151,9 @@ namespace MonstercatDesktopStreamingApp.Pages
                 window.Navigate(typeof(SongView));
             }
         }
+        #endregion
 
+        #region Navigation
         private void Library_Clicked(object sender, RoutedEventArgs e)
         {
             if (windowView.CurrentSourcePageType != typeof(LibraryView) && windowView.CurrentSourcePageType != typeof(LoginPage)
@@ -202,13 +195,17 @@ namespace MonstercatDesktopStreamingApp.Pages
                 DisplayNotLoggedInDialog();
             }
         }
+        #endregion
 
+        #region Tools
         public static string Base64Encode(string plainText)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return "Basic " + System.Convert.ToBase64String(plainTextBytes);
         }
+        #endregion
 
+        #region Dialog Windows
         private async void DisplayNotLoggedInDialog()
         {
             ContentDialog notLoggedIn = new ContentDialog
@@ -221,18 +218,6 @@ namespace MonstercatDesktopStreamingApp.Pages
 
             ContentDialogResult result = await notLoggedIn.ShowAsync();
         }
-
-        private async void DisplayNextDialog()
-        {
-            ContentDialog notLoggedIn = new ContentDialog
-            {
-                RequestedTheme = ElementTheme.Dark,
-                Title = "NEXT",
-                Content = "NEXT SONG BUTTON WAS PRESSED",
-                CloseButtonText = "Ok"
-            };
-
-            ContentDialogResult result = await notLoggedIn.ShowAsync();
-        }
+        #endregion
     }
 }

@@ -27,6 +27,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             this.InitializeComponent();
         }
 
+        #region API Calls
         public async void Register_ClickedAsync(object sender, RoutedEventArgs e)
         {
             using (HttpClient httpClient = new HttpClient())
@@ -78,7 +79,9 @@ namespace MonstercatDesktopStreamingApp.Pages
                 }
             }
         }
+        #endregion
 
+        #region Dialog Windows
         private async void DisplayInvalidRegistrationDialog()
         {
             ContentDialog invalidLogin = new ContentDialog
@@ -117,5 +120,6 @@ namespace MonstercatDesktopStreamingApp.Pages
 
             ContentDialogResult result = await invalidLogin.ShowAsync();
         }
+        #endregion
     }
 }

@@ -22,6 +22,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             }
         }
 
+        #region Navigation
         private void AlbumsViewer_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (MainPage.window.CurrentSourcePageType != typeof(AlbumView))
@@ -29,5 +30,6 @@ namespace MonstercatDesktopStreamingApp.Pages
                 MainPage.window.Navigate(typeof(AlbumView), e.ClickedItem);
             }
         }
+        #endregion
     }
 }

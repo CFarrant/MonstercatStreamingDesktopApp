@@ -18,10 +18,11 @@ namespace MonstercatDesktopStreamingApp.Pages
         public LoginPage()
         {
             this.InitializeComponent();
-            this.monstercatLogo.Source = new BitmapImage(new Uri("http://www.sclance.com/pngs/monstercat-logo-png/monstercat_logo_png_895099.png"));
+            this.monstercatLogo.Source = new BitmapImage(new Uri("https://tr.rbxcdn.com/64807643d96804ad1d51f0446ca59c8a/420/420/Decal/Png"));
             BuildLocalAlbumAsync();
         }
 
+        #region Navigation
         private void ForgotButton_Clicked(object sender, RoutedEventArgs e)
         {
             if (MainPage.window.CurrentSourcePageType != typeof(ForgotPage))
@@ -37,7 +38,9 @@ namespace MonstercatDesktopStreamingApp.Pages
                 MainPage.window.Navigate(typeof(RegisterPage));
             }
         }
+        #endregion
 
+        #region Dialog Windows
         private async void DisplayInvalidLoginDialog()
         {
             ContentDialog invalidLogin = new ContentDialog
@@ -50,7 +53,9 @@ namespace MonstercatDesktopStreamingApp.Pages
 
             ContentDialogResult result = await invalidLogin.ShowAsync();
         }
+        #endregion
 
+        #region API Calls
         private async void LoginButton_ClickedAsync(object sender, RoutedEventArgs e)
         {
             using (HttpClient httpClient = new HttpClient())
@@ -133,5 +138,6 @@ namespace MonstercatDesktopStreamingApp.Pages
                 catch (Exception) { }
             }
         }
+        #endregion
     }
 }

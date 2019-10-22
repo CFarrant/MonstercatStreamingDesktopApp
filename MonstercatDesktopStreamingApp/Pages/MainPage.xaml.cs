@@ -1,7 +1,6 @@
 ﻿using MonstercatDesktopStreamingApp.Objects;
 using System;
 using System.Collections.Generic;
-using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,7 +19,6 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static MediaPlayerElement mediaPlayerGUI;
         public static Stack<TrackObject> history;
         public static TrackObject currentSong;
-        public static SystemMediaTransportControls smtc;
         #endregion
 
         public MainPage()

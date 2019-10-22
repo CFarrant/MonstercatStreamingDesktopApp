@@ -14,7 +14,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" x:Name="albumViewer">
-            <Image x:Name="songArtwork" Width="500" Height="500" Margin="50,75,0,0"></Image>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="songArtwork" Width="500" Height="500" Margin="75,75,0,0"></Image>
             <TextBlock FontWeight="Bold" FontStyle="Oblique" IsColorFontEnabled="True" Margin="80,18,0,0" Style="{StaticResource BaseTextBlockStyle}">
                 <Run x:Name="songAlbumName" Foreground="LightGray" FontFamily="Segoe UI" />
             </TextBlock>

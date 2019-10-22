@@ -10,11 +10,11 @@
 
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" x:Name="albumViewer">
-            <Image x:Name="albumCoverImage" Width="500" Height="500" Margin="50,75,0,0"></Image>
+        <StackPanel VerticalAlignment="Top" Grid.Column="0" x:Name="albumViewer">
+            <Image HorizontalAlignment="Left" x:Name="albumCoverImage" Width="500" Height="500" Margin="75,75,0,0"></Image>
             <TextBlock FontWeight="Bold" FontStyle="Oblique" IsColorFontEnabled="True" Margin="80,18,0,0" Style="{StaticResource BaseTextBlockStyle}">
                 <Run x:Name="albumName" Foreground="LightGray" FontFamily="Segoe UI" />
             </TextBlock>
@@ -22,8 +22,8 @@
                 <Run x:Name="albumArtistName" Foreground="LightGray" FontFamily="Segoe UI" />
             </TextBlock>
         </StackPanel>
-        <ScrollViewer Margin="55,60,0,90" Width="470" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled" Grid.Column="1" HorizontalAlignment="Left">
-            <StackPanel x:Name="songViewer"/>
+        <ScrollViewer VerticalAlignment="Top" Margin="55,60,0,90" Width="470" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled" Grid.Column="1" HorizontalAlignment="Left">
+            <StackPanel HorizontalAlignment="Left" x:Name="songViewer"/>
         </ScrollViewer>
     </Grid>
 </Page>

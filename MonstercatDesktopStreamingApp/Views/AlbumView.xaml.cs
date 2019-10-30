@@ -124,13 +124,28 @@ namespace MonstercatDesktopStreamingApp.Pages
             foreach (Track t in tList)
             {
                 if (t != null) {
+                    StackPanel wrap = new StackPanel();
+                    wrap.Orientation = Orientation.Horizontal;
                     Button s = new Button();
                     s.Margin = new Thickness(0, 15, 0, 0);
                     s.Background = new SolidColorBrush(Windows.UI.Colors.DarkGray);
                     s.RequestedTheme = ElementTheme.Dark;
                     s.Content = t.tracknumber + " ~ " + t.title;
                     s.Click += new RoutedEventHandler(SongViewer_ItemClick);
-                    songViewer.Children.Add(s);
+                    s.Tag = t.tracknumber;
+                    wrap.Children.Add(s);
+                    if (MainPage.currentSong != null || (MainPage.history.Count + MainPage.queue.Count) >= 1)
+                    {
+                        Button c = new Button();
+                        c.Margin = new Thickness(15, 15, 0, 0);
+                        c.Background = new SolidColorBrush(Windows.UI.Colors.DarkGray);
+                        c.RequestedTheme = ElementTheme.Dark;
+                        c.Content = "+";
+                        c.Tag = t.tracknumber;
+                        c.Click += new RoutedEventHandler(SongViewer_AddClick);
+                        wrap.Children.Add(c);
+                    }
+                    songViewer.Children.Add(wrap);
                 }
             }
         }
@@ -138,10 +153,20 @@ namespace MonstercatDesktopStreamingApp.Pages
         #region Button Overrides
         private void SongViewer_PlayAllClick(object sender, RoutedEventArgs e)
         {
-            foreach(Track t in tList.Reverse())
+            if (MainPage.currentSong != null)
             {
-                TrackObject songObject = new TrackObject(a, t);
-                MainPage.queue.Push(songObject);
+                MainPage.mediaPlayer.Pause();
+                MainPage.mediaPlayer.Source = null;
+                MainPage.history.Clear();
+                MainPage.queue.Clear();
+            }
+            foreach (Track t in tList.Reverse())
+            {
+                if (t != null)
+                {
+                    TrackObject songObject = new TrackObject(a, t);
+                    MainPage.queue.Push(songObject);
+                }
             }
             MainPage.window.Navigate(typeof(SongView), MainPage.queue.Pop());
         }
@@ -150,15 +175,20 @@ namespace MonstercatDesktopStreamingApp.Pages
         {
             if (MainPage.window.CurrentSourcePageType != typeof(SongView))
             {
+                if (MainPage.currentSong != null)
+                {
+                    MainPage.mediaPlayer.Pause();
+                    MainPage.mediaPlayer.Source = null;
+                    MainPage.history.Clear();
+                    MainPage.queue.Clear();
+                }
                 Track t = null;
                 var button = (Button)sender;
-                string track = (string)button.Content;
-                track = track.Split(' ')[0];
                 foreach(Track s in tList)
                 {
                     if (s != null)
                     {
-                        if(s.tracknumber == int.Parse(track))
+                        if(s.tracknumber == (int)button.Tag)
                         {
                             t = s;
                         }
@@ -166,6 +196,42 @@ namespace MonstercatDesktopStreamingApp.Pages
                 }
                 TrackObject songObject = new TrackObject(a, t);
                 MainPage.window.Navigate(typeof(SongView), songObject);
+            }
+        }
+
+        private void SongViewer_AddClick(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.window.CurrentSourcePageType != typeof(SongView))
+            {
+                Track t = null;
+                var button = (Button)sender;
+                foreach (Track s in tList)
+                {
+                    if (s != null)
+                    {
+                        if (s.tracknumber == (int)button.Tag)
+                        {
+                            t = s;
+                        }
+                    }
+                }
+                TrackObject songObject = new TrackObject(a, t);
+
+                Stack<TrackObject> temp = new Stack<TrackObject>();
+
+                while (MainPage.queue.Count >= 1)
+                {
+                    TrackObject to = MainPage.queue.Pop();
+                    temp.Push(to);
+                }
+
+                temp.Push(songObject);
+
+                while (temp.Count >= 1)
+                {
+                    TrackObject to = temp.Pop();
+                    MainPage.queue.Push(to);
+                }
             }
         }
         #endregion

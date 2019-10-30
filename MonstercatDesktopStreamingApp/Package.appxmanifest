@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
   <Identity Name="121ae4a3-0061-4c8b-89e2-ff9f0c775c33" Publisher="CN=Christopher" Version="1.0.2.0" />
   <mp:PhoneIdentity PhoneProductId="121ae4a3-0061-4c8b-89e2-ff9f0c775c33" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
@@ -27,5 +27,6 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <uap3:Capability Name="backgroundMediaPlayback" />
   </Capabilities>
 </Package>

@@ -20,6 +20,7 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static MediaPlayerElement mediaPlayerGUI;
         public static Stack<TrackObject> history;
         public static TrackObject currentSong;
+        public static bool searchedLibrary = false;
         #endregion
 
         public MainPage()
@@ -156,9 +157,14 @@ namespace MonstercatDesktopStreamingApp.Pages
         #region Navigation
         private void Library_Clicked(object sender, RoutedEventArgs e)
         {
-            if (windowView.CurrentSourcePageType != typeof(LibraryView) && windowView.CurrentSourcePageType != typeof(LoginPage)
+            if (searchedLibrary == false && windowView.CurrentSourcePageType != typeof(LibraryView) && windowView.CurrentSourcePageType != typeof(LoginPage)
                 && windowView.CurrentSourcePageType != typeof(ForgotPage) && windowView.CurrentSourcePageType != typeof(RegisterPage))
             {
+                windowView.Navigate(typeof(LibraryView));
+            }
+            else if (searchedLibrary == true)
+            {
+                searchedLibrary = false;
                 windowView.Navigate(typeof(LibraryView));
             }
             else if (authentication.Equals(""))

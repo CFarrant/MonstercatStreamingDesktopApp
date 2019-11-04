@@ -130,7 +130,6 @@
     <Compile Include="Objects\Artist.cs" />
     <Compile Include="Objects\POSTUser.cs" />
     <Compile Include="Objects\PUTUser.cs" />
-    <Compile Include="Objects\SongButton.cs" />
     <Compile Include="Objects\TrackObject.cs" />
     <Compile Include="Objects\GETUser.cs" />
     <Compile Include="Pages\ChangePage.xaml.cs">

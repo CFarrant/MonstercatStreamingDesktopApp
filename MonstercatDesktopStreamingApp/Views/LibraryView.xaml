@@ -9,7 +9,24 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Background="Black">
-        <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsItemClickEnabled="true" ItemClick="AlbumsViewer_ItemClick" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" Grid.Row="1" Grid.Column="1" x:Name="albumsViewer">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.53*"></ColumnDefinition>
+            <ColumnDefinition Width="13.5*"></ColumnDefinition>
+            <ColumnDefinition Width="1.53*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="queryType" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0" SelectedIndex="0">
+            <ComboBoxItem Content="Album"></ComboBoxItem>
+            <ComboBoxItem Content="Artist"></ComboBoxItem>
+            <ComboBoxItem Content="Song"></ComboBoxItem>
+            <ComboBoxItem Content="Genre"></ComboBoxItem>
+        </ComboBox>
+        <TextBox x:Name="queryContent" Grid.Row="0" Grid.Column="1" Height="30" VerticalAlignment="top" HorizontalAlignment="Stretch"></TextBox>
+        <Button Click="SearchButton_Click" Width="100" RequestedTheme="Dark" Grid.Row="0" Grid.Column="2" Content="Search" VerticalAlignment="Top" HorizontalAlignment="Left"></Button>
+        <GridView Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsItemClickEnabled="true" ItemClick="AlbumsViewer_ItemClick" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="3" ScrollViewer.VerticalScrollMode="Enabled" x:Name="albumsViewer">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="27">

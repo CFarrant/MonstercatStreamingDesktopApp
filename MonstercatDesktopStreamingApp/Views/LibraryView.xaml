@@ -42,7 +42,7 @@
             </GridView.ItemTemplate>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid MaximumRowsOrColumns="9" Orientation="Horizontal" />
+                    <ItemsWrapGrid MaximumRowsOrColumns="6" ItemWidth="215" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>

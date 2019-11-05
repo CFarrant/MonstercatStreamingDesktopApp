@@ -1,7 +1,7 @@
 ﻿using MonstercatDesktopStreamingApp.Objects;
+using MonstercatDesktopStreamingApp.Views;
 using System;
 using System.Collections.Generic;
-using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -166,6 +166,19 @@ namespace MonstercatDesktopStreamingApp.Pages
             {
                 searchedLibrary = false;
                 windowView.Navigate(typeof(LibraryView));
+            }
+            else if (authentication.Equals(""))
+            {
+                DisplayNotLoggedInDialog();
+            }
+        }
+
+        private void Queue_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (windowView.CurrentSourcePageType != typeof(QueueView) && windowView.CurrentSourcePageType != typeof(LoginPage)
+                && windowView.CurrentSourcePageType != typeof(ForgotPage) && windowView.CurrentSourcePageType != typeof(RegisterPage))
+            {
+                windowView.Navigate(typeof(QueueView));
             }
             else if (authentication.Equals(""))
             {

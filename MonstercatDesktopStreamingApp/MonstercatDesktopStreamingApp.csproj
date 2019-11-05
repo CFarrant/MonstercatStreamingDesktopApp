@@ -128,6 +128,7 @@
     <Compile Include="Objects\AlbumObject.cs" />
     <Compile Include="Objects\LibraryObject.cs" />
     <Compile Include="Objects\Artist.cs" />
+    <Compile Include="Objects\POSTTrack.cs" />
     <Compile Include="Objects\POSTUser.cs" />
     <Compile Include="Objects\PUTUser.cs" />
     <Compile Include="Objects\TrackObject.cs" />

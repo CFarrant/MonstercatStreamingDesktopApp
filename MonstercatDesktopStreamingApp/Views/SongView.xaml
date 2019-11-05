@@ -10,8 +10,8 @@
 
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="1.15*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" x:Name="albumViewer">
             <Image HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="songArtwork" Width="500" Height="500" Margin="75,75,0,0"></Image>

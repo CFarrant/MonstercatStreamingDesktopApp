@@ -1,5 +1,11 @@
 ﻿using MonstercatDesktopStreamingApp.Objects;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -11,6 +17,71 @@ namespace MonstercatDesktopStreamingApp.Pages
         {
             this.InitializeComponent();
         }
+
+        #region API Calls
+        private List<Track> BuildQueriedTrackList(POSTTrack track)
+        {
+            List<Track> results = new List<Track>();
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(@"http://www.monstercatstreaming.tk:8080");
+                //httpClient.BaseAddress = new Uri(@"http://localhost:8080");
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
+                string endpoint = @"/api/song/search";
+                //string endpoint = @"/album/" + albumId;
+                string json = "";
+
+                try
+                {
+                    HttpContent content = new StringContent(JsonConvert.SerializeObject(track), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = httpClient.PostAsync(endpoint, content).Result;
+                    response.EnsureSuccessStatusCode();
+                    json = response.Content.ReadAsStringAsync().Result;
+
+                    JArray jArray = JArray.Parse(json);
+                    foreach (JObject item in jArray)
+                    {
+                        JProperty songArt = (JProperty)item.First.Next.Next.Next.Next.Next.Next;
+                        JObject alb = (JObject)item.Last.First;
+                        JObject albArt = (JObject)alb.Last.First;
+
+                        results.Add(new Track
+                        {
+                            id = (string)item.GetValue("id"),
+                            tracknumber = (int)item.GetValue("tracknumber"),
+                            title = (string)item.GetValue("title"),
+                            genreprimary = (string)item.GetValue("genreprimary"),
+                            genresecondary = (string)item.GetValue("genresecondary"),
+                            songURL = (string)item.GetValue("songURL"),
+                            artist = new Artist()
+                            {
+                                name = (string)((JObject)songArt.First).GetValue("name")
+                            },
+                            album = new Album()
+                            {
+                                id = (string)alb.GetValue("id"),
+                                name = (string)alb.GetValue("name"),
+                                type = (string)alb.GetValue("type"),
+                                releaseCode = (string)alb.GetValue("releaseCode"),
+                                genreprimary = (string)alb.GetValue("genreprimary"),
+                                genresecondary = (string)alb.GetValue("genresecondary"),
+                                coverURL = (string)alb.GetValue("coverURL"),
+                                artist = new Artist()
+                                {
+                                    name = (string)albArt.GetValue("name")
+                                }
+                            }
+                        });
+                    }
+                }
+                catch (Exception) { }
+            }
+
+            return results;
+        }
+        #endregion
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -70,6 +141,16 @@ namespace MonstercatDesktopStreamingApp.Pages
                     break;
                 //Song
                 case 2:
+                    POSTTrack query = new POSTTrack();
+                    query.query = queryContent.Text.ToLower();
+                    List<Track> tracks = BuildQueriedTrackList(query);
+                    List<TrackObject> trackObjects = new List<TrackObject>();
+
+                    foreach (Track t in tracks)
+                    {
+                        results.Add(t.album);
+                    }
+
                     break;
                 //Genre
                 case 3:

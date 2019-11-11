@@ -17,10 +17,12 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static Frame window;
         public static MediaPlayer mediaPlayer;
         public static List<Album> albums;
+        public static List<Track> tracks;
         public static MediaPlayerElement mediaPlayerGUI;
         public static Stack<TrackObject> history;
         public static TrackObject currentSong;
         public static bool searchedLibrary = false;
+        public static int TRACK_COUNT;
         #endregion
 
         public MainPage()
@@ -30,6 +32,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             window = windowView;
             queue = new Stack<TrackObject>();
             albums = new List<Album>();
+            tracks = new List<Track>();
             history = new Stack<TrackObject>();
             nowPlaying = this.nowPlayingTitle;
             mediaPlayerGUI = this.mediaPlayerUI;
@@ -56,7 +59,14 @@ namespace MonstercatDesktopStreamingApp.Pages
                         history.Push(currentSong);
                         TrackObject o = queue.Pop();
                         currentSong = o;
-                        window.Navigate(typeof(SongView));
+                        if (window.CurrentSourcePageType.Equals(typeof(QueueView)))
+                        {
+                            window.Navigate(typeof(QueueView));
+                        }
+                        else
+                        {
+                            window.Navigate(typeof(SongView));
+                        }
                     }
                     else if (queue.Count == 0)
                     {
@@ -139,7 +149,14 @@ namespace MonstercatDesktopStreamingApp.Pages
             {
                 queue.Push(currentSong);
                 currentSong = history.Pop();
-                window.Navigate(typeof(SongView));
+                if (window.CurrentSourcePageType.Equals(typeof(QueueView)))
+                {
+                    window.Navigate(typeof(QueueView));
+                }
+                else
+                {
+                    window.Navigate(typeof(SongView));
+                }
             }
         }
 
@@ -149,7 +166,14 @@ namespace MonstercatDesktopStreamingApp.Pages
             {
                 history.Push(currentSong);
                 currentSong = queue.Pop();
-                window.Navigate(typeof(SongView));
+                if (window.CurrentSourcePageType.Equals(typeof(QueueView)))
+                {
+                    window.Navigate(typeof(QueueView));
+                }
+                else
+                {
+                    window.Navigate(typeof(SongView));
+                }
             }
         }
         #endregion
@@ -160,7 +184,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             if (searchedLibrary == false && windowView.CurrentSourcePageType != typeof(LibraryView) && windowView.CurrentSourcePageType != typeof(LoginPage)
                 && windowView.CurrentSourcePageType != typeof(ForgotPage) && windowView.CurrentSourcePageType != typeof(RegisterPage))
             {
-                windowView.Navigate(typeof(LibraryView));
+                windowView.Navigate(typeof(LibraryView), albums);
             }
             else if (searchedLibrary == true)
             {

@@ -48,7 +48,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                     JArray jArray = JArray.Parse(json);
                     foreach (JObject item in jArray)
                     {
-                        JProperty songArt = (JProperty)item.First.Next.Next.Next.Next.Next.Next;
+                        JProperty songArt = (JProperty)item.First.Next.Next.Next.Next.Next.Next.Next;
                         JObject alb = (JObject)item.Last.First;
                         JObject albArt = (JObject)alb.Last.First;
 

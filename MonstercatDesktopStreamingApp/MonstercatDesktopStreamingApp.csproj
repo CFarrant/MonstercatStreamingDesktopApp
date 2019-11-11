@@ -126,6 +126,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\AlbumObject.cs" />
+    <Compile Include="Objects\GETTrackCount.cs" />
     <Compile Include="Objects\LibraryObject.cs" />
     <Compile Include="Objects\Artist.cs" />
     <Compile Include="Objects\POSTTrack.cs" />
@@ -144,6 +145,12 @@
     </Compile>
     <Compile Include="Views\AlbumView.xaml.cs">
       <DependentUpon>AlbumView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QueueView.xaml.cs">
+      <DependentUpon>QueueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResultsView.xaml.cs">
+      <DependentUpon>ResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SongView.xaml.cs">
       <DependentUpon>SongView.xaml</DependentUpon>
@@ -197,6 +204,14 @@
     <Page Include="Views\AlbumView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\QueueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResultsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SongView.xaml">
       <Generator>MSBuild:Compile</Generator>

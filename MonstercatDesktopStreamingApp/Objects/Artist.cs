@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonstercatDesktopStreamingApp.Objects
 {
+    [Serializable]
     public class Artist
     {
         public string name { get; set; }

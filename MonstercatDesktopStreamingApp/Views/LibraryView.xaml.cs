@@ -1,4 +1,5 @@
 ﻿using MonstercatDesktopStreamingApp.Objects;
+using MonstercatDesktopStreamingApp.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -128,6 +129,8 @@ namespace MonstercatDesktopStreamingApp.Pages
                             results.Add(a);
                         }
                     }
+                    MainPage.searchedLibrary = true;
+                    MainPage.window.Navigate(typeof(LibraryView), results);
                     break;
                 //Artist
                 case 1:
@@ -138,19 +141,16 @@ namespace MonstercatDesktopStreamingApp.Pages
                             results.Add(a);
                         }
                     }
+                    MainPage.searchedLibrary = true;
+                    MainPage.window.Navigate(typeof(LibraryView), results);
                     break;
                 //Song
                 case 2:
                     POSTTrack query = new POSTTrack();
                     query.query = queryContent.Text.ToLower();
                     List<Track> tracks = BuildQueriedTrackList(query);
-                    List<TrackObject> trackObjects = new List<TrackObject>();
-
-                    foreach (Track t in tracks)
-                    {
-                        results.Add(t.album);
-                    }
-
+                    object[] details = new object[] { queryContent.Text.ToLower(), tracks };
+                    MainPage.window.Navigate(typeof(ResultsView), details);
                     break;
                 //Genre
                 case 3:
@@ -161,13 +161,12 @@ namespace MonstercatDesktopStreamingApp.Pages
                             results.Add(a);
                         }
                     }
+                    MainPage.searchedLibrary = true;
+                    MainPage.window.Navigate(typeof(LibraryView), results);
                     break;
                 default:
                     break;
             }
-
-            MainPage.searchedLibrary = true;
-            MainPage.window.Navigate(typeof(LibraryView), results);
         }
     }
 }

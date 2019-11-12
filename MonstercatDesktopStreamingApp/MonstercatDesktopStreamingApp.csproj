@@ -126,7 +126,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\AlbumObject.cs" />
-    <Compile Include="Objects\GETTrackCount.cs" />
     <Compile Include="Objects\LibraryObject.cs" />
     <Compile Include="Objects\Artist.cs" />
     <Compile Include="Objects\POSTTrack.cs" />

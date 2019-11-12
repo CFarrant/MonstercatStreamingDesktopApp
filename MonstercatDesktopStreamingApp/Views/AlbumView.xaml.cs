@@ -35,7 +35,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                 //httpClient.BaseAddress = new Uri(@"http://localhost:8080");
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
-                string endpoint = @"/api/album/"+ albumId;
+                string endpoint = @"/api/album/" + albumId;
                 //string endpoint = @"/album/" + albumId;
                 string json = "";
 
@@ -92,7 +92,30 @@ namespace MonstercatDesktopStreamingApp.Pages
             var libraryObject = (LibraryObject)e.Parameter;
             Album album = libraryObject.album;
             a = album;
-            BuildLocalTrackList(a.id);
+
+            if (MainPage.TRACK_COUNT == MainPage.tracks.Count)
+            {
+                foreach (Track t in MainPage.tracks)
+                {
+                    if (t.album.id.Equals(a.id))
+                    {
+                        aTracks.Add(t);
+                    }
+                }
+            }
+            else
+            {
+                BuildLocalTrackList(a.id);
+            }
+
+            foreach(Track t in MainPage.tracks)
+            {
+                if (t.album.id.Equals(a.id))
+                {
+                    aTracks.Add(t);
+                }
+            }
+
             tList = new Track[aTracks.Count];
             int i = 0;
             foreach(Track t in aTracks)
@@ -199,7 +222,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             }
         }
 
-        private void SongViewer_AddClick(object sender, RoutedEventArgs e)
+        private async void SongViewer_AddClick(object sender, RoutedEventArgs e)
         {
             if (MainPage.window.CurrentSourcePageType != typeof(SongView))
             {
@@ -221,6 +244,14 @@ namespace MonstercatDesktopStreamingApp.Pages
 
                 while (MainPage.queue.Count >= 1)
                 {
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        if (MainPage.queue.Count == 1)
+                        {
+                            MainPage.mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = false;
+                            MainPage.mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = false;
+                        }
+                    });
                     TrackObject to = MainPage.queue.Pop();
                     temp.Push(to);
                 }

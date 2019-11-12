@@ -28,6 +28,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             this.InitializeComponent();
             this.monstercatLogo.Source = new BitmapImage(new Uri("https://tr.rbxcdn.com/64807643d96804ad1d51f0446ca59c8a/420/420/Decal/Png"));
             BuildLocalAlbumAsync();
+            BuildLocalTracksAsync();
         }
 
         public async Task<bool> isFilePresent()
@@ -185,7 +186,7 @@ namespace MonstercatDesktopStreamingApp.Pages
             //    }
             //    stream.Dispose();
 
-            //    apiCount = CheckTotalAPITrackCount();
+            apiCount = CheckTotalAPITrackCount();
 
             //    if (loaded.Count == apiCount)
             //    {
@@ -200,10 +201,10 @@ namespace MonstercatDesktopStreamingApp.Pages
             
             if (dbIsValid == false)
             {
-                List<Track> tracks = new List<Track>();
-                int limit = 1500;
+                //List<Track> tracks = new List<Track>();
+                int limit = 2000;
                 int skip = 0;
-                while(tracks.Count < apiCount)
+                while(MainPage.tracks.Count < apiCount)
                 {
                     using (HttpClient httpClient = new HttpClient())
                     {
@@ -227,7 +228,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                                 JObject alb = (JObject)item.Last.First;
                                 JObject albArt = (JObject)alb.Last.First;
 
-                                tracks.Add(new Track
+                                MainPage.tracks.Add(new Track
                                 {
                                     id = (string)item.GetValue("id"),
                                     tracknumber = (int)item.GetValue("tracknumber"),
@@ -258,7 +259,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                         }
                         catch (Exception) { }
 
-                        skip += 500;
+                        skip += 2000;
                     }
                 }
 
@@ -277,11 +278,11 @@ namespace MonstercatDesktopStreamingApp.Pages
                 //}
                 //stream.Dispose();
 
-                MainPage.TRACK_COUNT = tracks.Count;
-                foreach(Track t in tracks)
-                {
-                    MainPage.tracks.Add(t);
-                }
+                //MainPage.TRACK_COUNT = tracks.Count;
+                //foreach(Track t in tracks)
+                //{
+                //    MainPage.tracks.Add(t);
+                //}
             }
         }
 

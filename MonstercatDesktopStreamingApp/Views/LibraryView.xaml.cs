@@ -44,7 +44,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                     JArray jArray = JArray.Parse(json);
                     foreach (JObject item in jArray)
                     {
-                        JProperty songArt = (JProperty)item.First.Next.Next.Next.Next.Next.Next;
+                        JProperty songArt = (JProperty)item.First.Next.Next.Next.Next.Next.Next.Next;
                         JObject alb = (JObject)item.Last.First;
                         JObject albArt = (JObject)alb.Last.First;
 
@@ -146,9 +146,25 @@ namespace MonstercatDesktopStreamingApp.Pages
                     break;
                 //Song
                 case 2:
-                    POSTTrack query = new POSTTrack();
-                    query.query = queryContent.Text.ToLower();
-                    List<Track> tracks = BuildQueriedTrackList(query);
+                    List<Track> tracks;
+                    if (MainPage.TRACK_COUNT == MainPage.tracks.Count)
+                    {
+                        tracks = new List<Track>();
+                        foreach (Track t in MainPage.tracks)
+                        {
+                            if (t.title.ToLower().Contains(queryContent.Text.ToLower()))
+                            {
+                                tracks.Add(t);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        POSTTrack query = new POSTTrack();
+                        query.query = queryContent.Text.ToLower();
+                        tracks = BuildQueriedTrackList(query);
+                    }
+
                     object[] details = new object[] { queryContent.Text.ToLower(), tracks };
                     MainPage.window.Navigate(typeof(ResultsView), details);
                     break;

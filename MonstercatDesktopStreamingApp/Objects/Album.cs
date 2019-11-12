@@ -17,5 +17,10 @@ namespace MonstercatDesktopStreamingApp.Objects
         public string genresecondary { get; set; }
         public string coverURL { get; set; }
         public Artist artist { get; set; }
+
+        public override string ToString()
+        {
+            return releaseCode + " ~ " + name;
+        }
     }
 }

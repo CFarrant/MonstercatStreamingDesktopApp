@@ -13,5 +13,10 @@ namespace MonstercatDesktopStreamingApp.Objects
         public string songURL { get; set; }
         public Artist artist { get; set; }
         public Album album { get; set; }
+
+        public override string ToString()
+        {
+            return album.releaseCode + " ~ " + tracknumber + ") " + title;
+        }
     }
 }

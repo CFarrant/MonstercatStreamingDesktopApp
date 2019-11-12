@@ -88,6 +88,7 @@ namespace MonstercatDesktopStreamingApp.Pages
         {
             base.OnNavigatedTo(e);
             List<Album> albums;
+            queryType.SelectedIndex = MainPage.searchIndex;
 
             if (e.Parameter == null)
             {
@@ -183,6 +184,11 @@ namespace MonstercatDesktopStreamingApp.Pages
                 default:
                     break;
             }
+        }
+
+        private void QueryType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainPage.searchIndex = queryType.SelectedIndex;
         }
     }
 }

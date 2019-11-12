@@ -93,6 +93,8 @@ namespace MonstercatDesktopStreamingApp.Views
         {
             base.OnNavigatedTo(e);
 
+            queryType.SelectedIndex = MainPage.searchIndex;
+
             object[] songResults = (object[])e.Parameter;
 
             Dictionary<string, Album> albumsDisplayed = new Dictionary<string, Album>();
@@ -293,6 +295,11 @@ namespace MonstercatDesktopStreamingApp.Views
                 default:
                     break;
             }
+        }
+
+        private void QueryType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainPage.searchIndex = queryType.SelectedIndex;
         }
     }
 }

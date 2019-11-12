@@ -23,6 +23,7 @@ namespace MonstercatDesktopStreamingApp.Pages
         public static TrackObject currentSong;
         public static bool searchedLibrary = false;
         public static int TRACK_COUNT;
+        public static int searchIndex = 0;
         #endregion
 
         public MainPage()

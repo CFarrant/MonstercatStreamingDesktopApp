@@ -18,7 +18,7 @@
             <ColumnDefinition Width="13.5*"></ColumnDefinition>
             <ColumnDefinition Width="1.53*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="queryType" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0" SelectedIndex="0">
+        <ComboBox SelectionChanged="QueryType_SelectionChanged" x:Name="queryType" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0">
             <ComboBoxItem Content="Album"></ComboBoxItem>
             <ComboBoxItem Content="Artist"></ComboBoxItem>
             <ComboBoxItem Content="Song"></ComboBoxItem>

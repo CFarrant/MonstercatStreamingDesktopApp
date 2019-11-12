@@ -163,53 +163,70 @@ namespace MonstercatDesktopStreamingApp.Pages
 
         private async void BuildLocalTracksAsync()
         {
-            //StorageFolder folder = ApplicationData.Current.LocalFolder;
-            //StorageFile file;
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file;
             bool dbIsValid = false;
 
-            //if (await isFilePresent() == false)
-            //{
-            //    file = await folder.CreateFileAsync(trackFileName);
-            //}
-            //else if (await isFilePresent() == true)
-            //{
-            //    file = await folder.GetFileAsync(trackFileName);
-            //    var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-            //    ulong size = stream.Size;
-            //    List<Track> loaded = new List<Track>();
+            if (await isFilePresent() == false)
+            {
+                file = await folder.CreateFileAsync(trackFileName);
+            }
+            else if (await isFilePresent() == true)
+            {
+                file = await folder.GetFileAsync(trackFileName);
+                var stream = await file.OpenAsync(FileAccessMode.Read);
+                byte[] fileBytes = new byte[stream.Size]; 
+                ulong size = stream.Size;
+                List<Track> loaded = new List<Track>();
 
-            //    using (var inputStream = stream.GetInputStreamAt(0))
-            //    {
-            //        using (var dataReader = new DataReader(inputStream)) {
+                var recievedStrings = "";
+                using (var inputStream = stream.GetInputStreamAt(0))
+                {
+                    using (var dataReader = new DataReader(inputStream)) {
+                        await dataReader.LoadAsync((uint)stream.Size);
+                        
+                        while (dataReader.UnconsumedBufferLength > 0)
+                        {
+                            recievedStrings += dataReader.ReadString((uint)stream.Size);
+                        }
+                    }
+                }
+                stream.Dispose();
 
-            //        }
-            //    }
-            //    stream.Dispose();
+                string[] readContents = recievedStrings.Split("\n");
 
-            apiCount = CheckTotalAPITrackCount();
+                foreach(string s in readContents)
+                {
+                    if (!s.Equals(""))
+                    {
+                        byte[] bytes = Convert.FromBase64String(s);
+                        loaded.Add(ByteArrayToTrack(bytes));
+                    }
+                }
 
-            //    if (loaded.Count == apiCount)
-            //    {
-            //        dbIsValid = true;
-            //        MainPage.TRACK_COUNT = loaded.Count;
-            //        foreach (Track t in loaded)
-            //        {
-            //            MainPage.tracks.Add(t);
-            //        }
-            //    }
-            //}
+                apiCount = CheckTotalAPITrackCount();
+
+                if (loaded.Count == apiCount)
+                {
+                    dbIsValid = true;
+                    MainPage.TRACK_COUNT = loaded.Count;
+                    foreach (Track t in loaded)
+                    {
+                        MainPage.tracks.Add(t);
+                    }
+                }
+            }
             
             if (dbIsValid == false)
             {
-                //List<Track> tracks = new List<Track>();
+                List<Track> tracks = new List<Track>();
                 int limit = 2000;
                 int skip = 0;
-                while(MainPage.tracks.Count < apiCount)
+                while(tracks.Count < apiCount)
                 {
                     using (HttpClient httpClient = new HttpClient())
                     {
                         httpClient.BaseAddress = new Uri(@"http://www.monstercatstreaming.tk:8080");
-                        //httpClient.BaseAddress = new Uri(@"http://localhost:8080");
                         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
                         string endpoint = @"/api/song/" + limit + "/" + skip;
@@ -228,7 +245,7 @@ namespace MonstercatDesktopStreamingApp.Pages
                                 JObject alb = (JObject)item.Last.First;
                                 JObject albArt = (JObject)alb.Last.First;
 
-                                MainPage.tracks.Add(new Track
+                                tracks.Add(new Track
                                 {
                                     id = (string)item.GetValue("id"),
                                     tracknumber = (int)item.GetValue("tracknumber"),
@@ -263,26 +280,27 @@ namespace MonstercatDesktopStreamingApp.Pages
                     }
                 }
 
-                //file = await folder.CreateFileAsync(trackFileName, CreationCollisionOption.ReplaceExisting);
-                //var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-                //using (var outputStream = stream.GetOutputStreamAt(0)) 
-                //{
-                //    using (var dataWriter = new DataWriter(outputStream))
-                //    {
-                //        foreach(Track t in tracks)
-                //        {
-                //            dataWriter.WriteBytes(TrackToByteArray(t));
-                //            var temp = await dataWriter.StoreAsync();
-                //        }
-                //    }
-                //}
-                //stream.Dispose();
+                file = await folder.CreateFileAsync(trackFileName, CreationCollisionOption.ReplaceExisting);
+                var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                using (var outputStream = stream.GetOutputStreamAt(0))
+                {
+                    using (var dataWriter = new DataWriter(outputStream))
+                    {
+                        foreach (Track t in tracks)
+                        {
+                            string temp = Convert.ToBase64String(TrackToByteArray(t)) + "\n";
+                            dataWriter.WriteString(temp);
+                            await dataWriter.StoreAsync();
+                        }
+                    }
+                }
+                stream.Dispose();
 
-                //MainPage.TRACK_COUNT = tracks.Count;
-                //foreach(Track t in tracks)
-                //{
-                //    MainPage.tracks.Add(t);
-                //}
+                MainPage.TRACK_COUNT = tracks.Count;
+                foreach (Track t in tracks)
+                {
+                    MainPage.tracks.Add(t);
+                }
             }
         }
 
@@ -291,11 +309,9 @@ namespace MonstercatDesktopStreamingApp.Pages
             using (HttpClient httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri(@"http://www.monstercatstreaming.tk:8080");
-                //httpClient.BaseAddress = new Uri(@"http://localhost:8080");
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("utf-8"));
                 string endpoint = @"/api/album";
-                //string endpoint = @"/album";
                 string json = "";
 
                 try
@@ -326,7 +342,6 @@ namespace MonstercatDesktopStreamingApp.Pages
                     }
                 }
                 catch (Exception) { }
-                BuildLocalTracksAsync();
             }
         }
         #endregion

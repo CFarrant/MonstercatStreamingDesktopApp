@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -117,17 +118,49 @@ namespace MonstercatDesktopStreamingApp.Views
                     StackPanel albumDisplay = new StackPanel();
                     albumDisplay.Orientation = Orientation.Horizontal;
 
+                    StackPanel albumData = new StackPanel();
+                    albumData.Margin = new Thickness(27);
+                    albumData.MaxWidth = 215;
+                    albumData.Width = 215;
+
                     Image albumCover = new Image();
                     albumCover.Source = new BitmapImage(new Uri(a.coverURL));
-                    albumCover.Width = 155;
-                    albumCover.Height = 155;
-                    albumCover.Margin = new Thickness(50, 50, 0, 0);
+                    albumCover.Width = 185;
+                    albumCover.Height = 185;
+                    albumCover.Margin = new Thickness(-25, 0, 0, 0);
                     albumCover.VerticalAlignment = VerticalAlignment.Top;
 
-                    albumDisplay.Children.Add(albumCover);
+                    albumData.Children.Add(albumCover);
+
+                    TextBlock albumName = new TextBlock()
+                    {
+                        FontFamily = new FontFamily("Segoe UI"),
+                        FontWeight = FontWeights.Bold,
+                        FontStyle = FontStyle.Oblique,
+                        IsColorFontEnabled = true,
+                        Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
+                        Foreground = new SolidColorBrush(Windows.UI.Colors.LightGray),
+                        Text = a.name
+                    };
+
+                    TextBlock albumArtist = new TextBlock()
+                    {
+                        TextWrapping = TextWrapping.NoWrap,
+                        FontFamily = new FontFamily("Segoe UI"),
+                        FontStyle = FontStyle.Oblique,
+                        IsColorFontEnabled = true,
+                        Style = (Style)Application.Current.Resources["BodyTextBlockStyle"],
+                        Foreground = new SolidColorBrush(Windows.UI.Colors.LightGray),
+                        Text = a.artist.name
+                    };
+                    
+                    albumData.Children.Add(albumName);
+                    albumData.Children.Add(albumArtist);
+
+                    albumDisplay.Children.Add(albumData);
 
                     StackPanel tracks = new StackPanel();
-                    tracks.Margin = new Thickness(50, 35, 0, 0);
+                    tracks.Margin = new Thickness(-10, 15, 0, 35);
 
                     foreach (Track t in objects)
                     {
@@ -139,7 +172,7 @@ namespace MonstercatDesktopStreamingApp.Views
                                 buttons.Orientation = Orientation.Horizontal;
 
                                 Button s = new Button();
-                                s.Margin = new Thickness(0, 15, 0, 0);
+                                s.Margin = new Thickness(0, 13, 0, 0);
 
                                 s.Background = new SolidColorBrush(Windows.UI.Colors.DarkGray);
                                 s.RequestedTheme = ElementTheme.Dark;

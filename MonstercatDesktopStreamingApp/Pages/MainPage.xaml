@@ -20,7 +20,7 @@
         <CommandBar DefaultLabelPosition="Right" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <AppBarButton Icon="MusicInfo" Label="Library" Click="Library_Clicked"/>
             <AppBarSeparator/>
-            <AppBarButton Icon="List" Label="Queue" Click="Queue_Clicked"/>
+            <!--<AppBarButton Icon="List" Label="Queue" Click="Queue_Clicked"/>-->
             <AppBarButton Icon="MusicInfo" Label="Now Playing" Click="NowPlaying_Clicked"/>
             <AppBarSeparator/>
             <AppBarButton Icon="OtherUser" Label="Update Info" Click="Change_Clicked"/>

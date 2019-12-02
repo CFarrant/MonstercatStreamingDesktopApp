@@ -27,7 +27,7 @@
         <TextBox x:Name="queryContent" Grid.Row="0" Grid.Column="1" Height="30" VerticalAlignment="top" HorizontalAlignment="Stretch"></TextBox>
         <Button Click="SearchButton_Click" Width="100" RequestedTheme="Dark" Grid.Row="0" Grid.Column="2" Content="Search" VerticalAlignment="Top" HorizontalAlignment="Left"></Button>
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
-            <StackPanel x:Name="resultsPanel"  Margin="0,0,0,50"/>
+            <StackPanel x:Name="resultsPanel"/>
         </ScrollViewer>
     </Grid>
 </Page>

@@ -185,7 +185,7 @@ namespace MonstercatDesktopStreamingApp.Views
                                 if (MainPage.currentSong != null || (MainPage.history.Count + MainPage.queue.Count) >= 1)
                                 {
                                     Button c = new Button();
-                                    c.Margin = new Thickness(15, 15, 0, 0);
+                                    c.Margin = new Thickness(15, 13, 0, 0);
                                     c.Background = new SolidColorBrush(Windows.UI.Colors.DarkGray);
                                     c.RequestedTheme = ElementTheme.Dark;
                                     c.Content = "+";
@@ -237,14 +237,6 @@ namespace MonstercatDesktopStreamingApp.Views
 
                 while (MainPage.queue.Count >= 1)
                 {
-                    if (MainPage.queue.Count == 1)
-                    {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                        {
-                            MainPage.mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = false;
-                            MainPage.mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = false;
-                        });
-                    }
                     TrackObject to = MainPage.queue.Pop();
                     temp.Push(to);
                 }
@@ -256,6 +248,30 @@ namespace MonstercatDesktopStreamingApp.Views
                     TrackObject to = temp.Pop();
                     MainPage.queue.Push(to);
                 }
+
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    if (MainPage.queue.Count == 0 && MainPage.queue.Count == 0)
+                    {
+                        MainPage.mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = false;
+                        MainPage.mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = false;
+                    }
+                    else if (MainPage.queue.Count >= 1 && MainPage.history.Count == 0)
+                    {
+                        MainPage.mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = true;
+                        MainPage.mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = false;
+                    }
+                    else if (MainPage.queue.Count == 0 && MainPage.history.Count >= 1)
+                    {
+                        MainPage.mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = false;
+                        MainPage.mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = true;
+                    }
+                    else if (MainPage.queue.Count >= 1 && MainPage.history.Count >= 1)
+                    {
+                        MainPage.mediaPlayerGUI.TransportControls.IsNextTrackButtonVisible = true;
+                        MainPage.mediaPlayerGUI.TransportControls.IsPreviousTrackButtonVisible = true;
+                    }
+                });
             }
         }
 
